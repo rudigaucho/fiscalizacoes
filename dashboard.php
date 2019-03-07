@@ -4,14 +4,15 @@
       include "grafico.php"; 
 
 
-        /* 
+       
 
 
 
 
 session_start();
 
-if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) || ($_SESSION["acesso"] != 'ADM' ) )
+
+if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"])  )
 {
   header("Location: index.html");
   exit;
@@ -20,7 +21,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) || ($_SESSION["aces
 }
 
 
-*/
+
  
       ?>
 
@@ -223,7 +224,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) || ($_SESSION["aces
         
             <!-- Top Menu Items -->
             <ul  class="nav navbar-right top-nav">
-                <a  class="navbar-brand" href="#" > <?php //echo $_SESSION["nome"]?></a>
+                <a  class="navbar-brand" href="#" > <?php echo $_SESSION["nome"]?></a>
               
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>   <b class="caret"></b></a>
@@ -251,8 +252,13 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) || ($_SESSION["aces
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           
-        
+        <?php if($_SESSION["acesso"] == 'ADM') { ?>
+          <li style="background:black;"></li>
+        <?php } else {?>
+
+      
         <li style="background:black;"><a href="cad_fiscal.php"><span class="glyphicon glyphicon-pencil"> CADASTRO </a></li>
+        <?php } ?>
           <li style="background:black;"><a href="pesq_per.php"><span class="glyphicon glyphicon-calendar"> BUSCA PERÍODO</a>
           
           
@@ -311,7 +317,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) || ($_SESSION["aces
 
                 <?php 
 
-$sql = mysql_query ("SELECT ga.nome,ga.uf,(SELECT count(*) from fiscal where ga.nome= fiscal.nome_ga and  week(data) = week(NOW())   and year(data) = year(now()) ) as total from fiscal JOIN ga
+$sql = mysql_query ("SELECT fiscal.tecnico,ga.nome,ga.uf,(SELECT count(*) from fiscal where ga.nome= fiscal.nome_ga and  week(data) = week(NOW())   and year(data) = year(now()) ) as total from fiscal JOIN ga
 on ga.protocolo = fiscal.protocolo ORDER BY UF" );
 
 
@@ -342,10 +348,67 @@ if (mysql_num_rows($sql) > 0){
   <?php  while ($dado = mysql_fetch_assoc($sql)){
     $dado2 = mysql_fetch_assoc($sql2); ?>
     <tr>
-      
+    
       <td><?php echo $dado ["nome"];  ?></td>
-      <td><a href="pesq_contagem.php?ga=<?php echo $dado ["nome"];  ?>"><?php echo $dado ["total"]; ?></a></td>
+      <?php if($dado ["total"] >= 3) { ?>
+      <td><span class="label label-success" style="font-size:16px;" ><a style="color:black;" href="pesq_contagem.php?ga=<?php echo $dado ["nome"];  ?>"><?php echo $dado ["total"]; ?></span></a></td>  
+      
+      <?php } else { ?>
+        <td><span class="label label-danger" style="font-size:16px;" ><a style="color:black;" href="pesq_contagem.php?ga=<?php echo $dado ["nome"];  ?>"><?php echo $dado ["total"]; ?></span></a></td>
+        <?php } ?>
+
       <td><?php echo $dado ["uf"]; ?></td>
+      
+      
+    </tr>
+    <?php  }} ?> 
+  </tbody>
+</table>
+
+
+<?php
+
+
+$sql = mysql_query ("select count(tecnico) as conta,tecnico,nome_ga from fiscal where MONTH(data) = MONTH(NOW())   and year(data) = year(now()) group by tecnico order by field (nome_ga,tecnico)" );
+
+
+
+
+$row = mysql_num_rows($sql);
+
+
+if (mysql_num_rows($sql) > 0){
+
+ 
+
+?>
+<br><br></b><span> <strong>Consolidação de serviços mês <?php echo date('M') ?> </strong></span><br><br>
+
+                <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">TÉCNICO</th>
+      <th scope="col">FISCALIZAÇÕES</th>
+      <th scope="col">GA</th>
+     
+      
+      
+      
+    </tr>
+  </thead>
+  <tbody>
+
+  <?php  while ($dado = mysql_fetch_assoc($sql)){
+    $dado2 = mysql_fetch_assoc($sql2); ?>
+    <tr>
+      
+      <td><?php echo $dado ["tecnico"];  ?></td>
+      <td><?php echo $dado ["conta"]; ?></td>
+      <td><?php echo $dado ["nome_ga"];  ?></td>
+      
+      
+
+     
       
       
     </tr>
@@ -353,7 +416,11 @@ if (mysql_num_rows($sql) > 0){
   </tbody>
 </table>
 
-                <div id="columnchart_material" style="width: 800px; height: 500px;"></div><br><br>
+
+
+
+
+                <br><br><div id="columnchart_material" style="width: 800px; height: 500px;"></div><br><br>
                 <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
 
                 

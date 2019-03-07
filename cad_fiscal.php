@@ -17,7 +17,7 @@
 
 }
   </style>
-<link rel="icon" href="logo.png">
+<link rel="icon" href="img/serede.png">
 
 
 
@@ -180,25 +180,25 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
   <div class="form-group">
 
       <label for="email">Cliente:</label>  
-      <input type="text" class="form-control" id="cliente" name="cliente"  required>
+      <input type="text" class="form-control" id="cliente" name="cliente"  maxlength="65" required >
     </div>
 
     
     <div class="form-group">
 
       <label for="email">Ccto:</label>  
-      <input type="text" class="form-control"  name="ccto"  required>
+      <input type="text" class="form-control"  name="ccto"  maxlength="7" required >
     </div>
     <div class="form-group">
 
       <label for="email">Endereço:</label>  
-      <input type="text" class="form-control"  name="endereco"  required>
+      <input type="text" class="form-control"  name="endereco"  maxlength="100" required >
     </div>
 
      <div class="form-group">
 
       <label for="email">Contato:</label>  
-      <input type="text" class="form-control"  name="contato"  required>
+      <input type="text" class="form-control"  name="contato"  maxlength="100" required >
     </div>
     <div class="form-group">
 
@@ -231,7 +231,7 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
     
     <div class="form-group">
     <label for="email">OBS: </label>
-  <textarea class="form-control" rows="5" id="obs" name="obs" maxlength="600"></textarea>
+  <textarea class="form-control" rows="5" id="obs" name="obs" maxlength="500"></textarea>
     </div>
 
 
@@ -243,17 +243,17 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
 <div class="form-group" >
     <label for="email">Fotos: </label> <label style="font-size: 12px; color: red;" >(Permitido apenas fotos menores que 1MB)</label>
     <input type="file"  id="foto1" name="foto1" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg1" required /><br><br>
+    <input type="text"  placeholder="Legenda da foto"  name="leg1" maxlength="85" required /><br><br>
 
 
     <input type="file"  id="foto2" name="foto2" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg2" required /><br><br>
+    <input type="text"  placeholder="Legenda da foto"  name="leg2" maxlength="85" required /><br><br>
 
 
     <input type="file"  id="foto3" name="foto3" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg3" required /><br><br>
+    <input type="text"  placeholder="Legenda da foto"  name="leg3" maxlength="85" required /><br><br>
     <input type="file"  id="foto4" name="foto4" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg4" required /><br><br>
+    <input type="text"  placeholder="Legenda da foto"  name="leg4" maxlength="85" required /><br><br>
     
    
 

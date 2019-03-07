@@ -178,6 +178,7 @@ function fnExcelReport() {
         <th>DATA</th>
         <th>TIPO</th>
         <th>GA</th>
+        <th>TÉCNICO</th>
         <th>PDF</th>
         
         
@@ -237,6 +238,7 @@ if (mysql_num_rows($sql) > 0)
         <td> <?php echo $dado ["data"];  ?></td>
         <td> <?php echo $dado ["tipo"];  ?></td>
         <td> <?php echo $dado ["nome_ga"];  ?></td>
+        <td> <?php echo $dado ["tecnico"];  ?></td>
         <td> <a href="pdf.php?protocolo=<?php echo $dado["protocolo"];?>" target="_blank" class="btn btn-info btn-xs active" role="button" aria-pressed="true">Gerar Pdf</a></td>
 
 
