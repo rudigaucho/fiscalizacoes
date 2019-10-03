@@ -35,8 +35,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) )
 	$permite = array('image/jpg', 'image/jpeg' , 'image/png');
     $type =$_FILES['foto1'] ['type'];
     $type2 =$_FILES['foto2'] ['type'];
-    $type3 =$_FILES['foto3'] ['type'];
-    $type4 =$_FILES['foto4'] ['type'];
+   
 
 
 //  ------------------------------------------ VERIFICACAO TAMANHO FOTOS ------------------------------------------------------- 
@@ -44,8 +43,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) )
 
             $tamanho1 = $_FILES['foto1']['size'];
             $tamanho2 = $_FILES['foto2']['size'];
-            $tamanho3 = $_FILES['foto3']['size'];
-            $tamanho4 = $_FILES['foto4']['size'];
+           
 
 
 
@@ -68,22 +66,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) )
 
 
             }
-            if (empty($type3))
-            {
-
-               $type3 = 'image/png';
-
-
-
-            }
-            if (empty($type4))
-            {
-
-               $type4 = 'image/png';
-
-
-
-            }
+            
              
 
 
@@ -115,13 +98,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) )
 	$novo_nome2  = md5(mt_rand(1, 1000) . microtime()). $extensao2;
     $diretorio = "fotos/";
 
-    $extensao3 = strtolower(substr($_FILES['foto3'] ['name'], -4));
-	$novo_nome3  = md5(mt_rand(1, 1000) . microtime()). $extensao3;
-    $diretorio = "fotos/";
-
-    $extensao4 = strtolower(substr($_FILES['foto4'] ['name'], -4));
-	$novo_nome4  = md5(mt_rand(1, 1000) . microtime()). $extensao4;
-    $diretorio = "fotos/";
+   
 
 
 
@@ -134,7 +111,7 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"]) )
 
 
 
-if (!in_array($type,$permite) || !in_array($type2,$permite ) || !in_array($type3,$permite ) || !in_array($type4,$permite ))
+if (!in_array($type,$permite) || !in_array($type2,$permite ))
 {
 
 echo "EXTENSÃO DA IMAGEM INVALIDA, SUA IMAGEM DEVE SER NO FORMATO JPEG,JPG OU PNG!";
@@ -142,7 +119,7 @@ echo "EXTENSÃO DA IMAGEM INVALIDA, SUA IMAGEM DEVE SER NO FORMATO JPEG,JPG OU P
    break;
 }
 
-if ( ($tamanho1 > 1000000) || ($tamanho2 > 1000000)  || ($tamanho3 > 1000000) || ($tamanho4 > 1000000))
+if ( ($tamanho1 > 1000000) || ($tamanho2 > 1000000) )
 {
 
 echo "TAMANHO MÁXIMO DA IMAGEM 1MB!";
@@ -153,8 +130,6 @@ else
 {
 move_uploaded_file ($_FILES['foto1'] ['tmp_name'], $diretorio.$novo_nome )	;
 move_uploaded_file ($_FILES['foto2'] ['tmp_name'], $diretorio.$novo_nome2 )	;
-move_uploaded_file ($_FILES['foto3'] ['tmp_name'], $diretorio.$novo_nome3 )	;
-move_uploaded_file ($_FILES['foto4'] ['tmp_name'], $diretorio.$novo_nome4 )	;
 
 
 
@@ -183,7 +158,7 @@ move_uploaded_file ($_FILES['foto4'] ['tmp_name'], $diretorio.$novo_nome4 )	;
 <script type="text/javascript">
 function saidasuccessfully()
 {
-	setTimeout("window.location='cad_fiscal.php'",3000);
+	setTimeout("window.location='cad_rep.php'",3000);
 	
 	
 }
@@ -230,17 +205,14 @@ function saidasuccessfully()
 
 $cliente =$_POST['cliente'];
 $ccto =$_POST['ccto'];
-$endereco =$_POST['endereco'];
-$contato =$_POST['contato'];
-$tecnico =$_POST['tec'];
-$tipo =$_POST['tipo'];
-$pos =$_POST['pos'];
-$neg =$_POST['neg'];
-$iqf =$_POST['iqf'];
+$local =$_POST['local'];
+$obs_acao =$_POST['obs_plan'];
+$obs_ini =$_POST['obs_ini'];
+$obs_rep =$_POST['obs_rep'];
+$acao =$_POST['optradio'];
 $leg1 =$_POST['leg1'];
 $leg2 =$_POST['leg2'];
-$leg3 =$_POST['leg3'];
-$leg4 =$_POST['leg4'];
+
 
 
 
@@ -308,9 +280,9 @@ $row = mysql_num_rows($sql);
 
 
 
-$query1 = "insert into fiscal (cliente,ccto,endereco,contato,data,tipo,nome_ga,id_ga,tecnico,pos,neg,iqf,foto1,foto2,foto3,foto4,leg1,leg2,leg3,leg4)";
+$query1 = "insert into repetido (ccto,cliente,obs_ini,obs_rep,obs_acao,acao,data,foto1,foto2,leg1,leg2,id_ga,local,nome_ga,uf)";
 
-    $query1.= "values ('$cliente','$ccto','$endereco','$contato',NOW(),'$tipo','".$_SESSION['nome']."','".$_SESSION['id']."','$tecnico','$pos','$neg','$iqf','$novo_nome','$novo_nome2','$novo_nome3','$novo_nome4','$leg1','$leg2','$leg3','$leg4')";
+    $query1.= "values ('$ccto','$cliente','$obs_ini','$obs_rep','$obs_acao','$acao',NOW(),'$novo_nome','$novo_nome2','$leg1','$leg2','".$_SESSION['id']."','$local','".$_SESSION['nome']."','".$_SESSION['uf']."')";
  
 
    

@@ -11,9 +11,49 @@ session_start();
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<style>
+img{
+
+
+width:60%;
+height:70%;
+
+}
+
+figure {
+  
+  
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  border: thin silver solid;
+  
+}
+
+figcaption {
+
+
+font-size:20px;
+
+
+
+
+}
+
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <link rel="icon" href="img/logo_serede.png">
+
+<script language="Javascript">
+function confirmacao(protocolo) {
+     var resposta = confirm("Deseja remover esse registro?");
+ 
+     if (resposta == true) {
+          window.location.href = "deletar.php?protocolo="+protocolo;
+     }
+}
+</script>
 
 <script type="text/javascript">
 function fnExcelReport() {
@@ -67,7 +107,7 @@ function fnExcelReport() {
 
 
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" style="background-image: url('img/buss.jpg');">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Serede</a>
@@ -103,7 +143,9 @@ function fnExcelReport() {
         <th>TIPO</th>
         <th>GA</th>
         <th>TÉCNICO</th>
+        <th>FOTOS</th>
         <th>PDF</th>
+        <th>DELETAR</th>
         
         
         
@@ -151,9 +193,86 @@ if (mysql_num_rows($sql) > 0)
         <td> <?php echo $dado ["tipo"];  ?></td>
         <td> <?php echo $dado ["nome_ga"];  ?></td>
         <td> <?php echo $dado ["tecnico"];  ?></td>
+        <td> <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $dado ['protocolo'];  ?>" >Visualizar</button> </td>
         <td> <a href="pdf.php?protocolo=<?php echo $dado["protocolo"];?>" target="_blank" class="btn btn-info btn-xs active" role="button" aria-pressed="true">Gerar Pdf</a></td>
+        <td> <a href="javascript:func()"
+onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger btn-xs active" role="button" aria-pressed="true">Deletar</a></td>
+
+        <?php
+        $foto1 = $dado ["foto1"];
+        $foto2 = $dado ["foto2"];
+        $foto3 = $dado ["foto3"];
+        $foto4 = $dado ["foto4"];
+
+        $leg1 = $dado ["leg1"];
+        $leg2 = $dado ["leg2"];
+        $leg3 = $dado ["leg3"];
+        $leg4 = $dado ["leg4"];
+        ?>
+   <div class="modal fade" id="myModal<?php echo $dado["protocolo"];  ?>" role="dialog">
+    <div class="modal-dialog-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="text-align:center">FOTOS <h4>
+          
+
+         
+          
 
 
+        <div class="modal-header" style="float:right; margin-top:-26%; margin-right:5%;">
+        
+            </div>
+         
+        
+        </h4>
+        <div class="modal-body">
+
+
+        
+        <?php echo "<figure> <img src='fotos/$foto1' class='img-rounded' alt='' >" ?>
+        <?php echo "<figcaption> $leg1 </figcaption></figure>" ?><br>
+
+        <?php echo "<figure> <img src='fotos/$foto2' class='img-rounded' alt='' >" ?>
+        <?php echo "<figcaption> $leg2 </figcaption></figure>" ?><br>
+
+        <?php echo "<figure> <img src='fotos/$foto3' class='img-rounded' alt='' >" ?>
+        <?php echo "<figcaption> $leg3 </figcaption></figure>" ?><br>
+
+        <?php echo "<figure> <img src='fotos/$foto4' class='img-rounded' alt='' >" ?>
+        <?php echo "<figcaption> $leg4 </figcaption></figure>" ?>
+
+
+        
+        
+
+
+        
+
+         
+
+        
+            
+
+        </div>
+        <div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Voltar</button>
+
+          
+
+
+
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
 
 
   <?php }  }   
@@ -171,45 +290,9 @@ if (mysql_num_rows($sql) > 0)
 </div>
     </tbody>
   </table>
+
+  
 </div>
-<?php 
-
-if (isset($_POST ['ok']) )
-{
-
-$id =$_POST['id'];
-$serie =$_POST['n_serie'];
-
-
-$query = "insert into carga_colaborador (n_serie,id_col,data)";
-$query.= "values ('$serie','$id',NOW())";
-$query2 = "delete from pendente where n_serie = '$serie'";
-
-$sql = mysql_query($query);
-$sql2 = mysql_query($query2);
-if($sql && $sql2)
-{
-  
-  echo "<h2>Enviado com sucesso!</h2>";
-  echo "<script>loginsuccessfully()</script>";
-  
-}
-else
-{
-  
-  echo "Erro no cadastro!";
-  
-}
-
-
-
-
-
-
-
-}
-
-?>
 
 
 

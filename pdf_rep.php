@@ -9,7 +9,7 @@ include 'mpdf/mpdf.php';
  $protocolo =$_GET['protocolo'];
   
 
-$select = mysql_query ("SELECT * FROM fiscal  
+$select = mysql_query ("SELECT * FROM repetido  
 							WHERE protocolo ='$protocolo'
 			");
 	$linha = mysql_fetch_array($select);//atribui o array recebido a variavel $linha
@@ -26,14 +26,15 @@ $select = mysql_query ("SELECT * FROM fiscal
 <span>DATA:  $linha[data]   </span><br>
 <span>CLIENTE:  $linha[cliente]   </span><br>
 <span>CCTO:  $linha[ccto]   </span><br>
-<span>ENDEREÇO:  $linha[endereco]   </span><br>
-<span>CONTATO:  $linha[contato]   </span><br>
-<span>TIPO:  $linha[tipo]   </span><br>
+<span>AÇÃO:  $linha[acao]   </span><br>
 <span>GA:  $linha[nome_ga]   </span><br>
-<span>TÉCNICO:  $linha[tecnico]   </span><br><br>
-<span>PONTOS POSITIVOS: <br> <fieldset style='border: 1px solid; padding: 12px;'>$linha[pos]   </span></fieldset><br><br>
-<span>PONTOS NEGATIVOS: <br> <fieldset style='border: 1px solid; padding: 12px;'>$linha[neg]   </span></fieldset><br><br>
-<span>PONTOS OBS IQF: <br> <fieldset style='border: 1px solid; padding: 12px;'>$linha[iqf]   </span></fieldset><br><br>
+<span>LOCALIDADE:  $linha[local]   </span><br>
+
+
+<span>OBS INICIAL: <br> <fieldset style='border: 1px solid; padding: 12px;'>$linha[obs_ini]   </span></fieldset><br><br>
+<span>OBS REPETIDO: <br> <fieldset style='border: 1px solid; padding: 12px;'>$linha[obs_rep]   </span></fieldset><br><br>
+<span>OBS PLANO AÇÃO: <br> <fieldset style='border: 1px solid; padding: 12px;'>$linha[obs_acao]   </span></fieldset><br><br>
+
 
 
 
@@ -53,10 +54,7 @@ $select = mysql_query ("SELECT * FROM fiscal
     <td> <img src='fotos/$linha[foto2]' width='300' height='300'><br> $linha[leg2] </td>
     
     </tr>
-    <tr>
-    <td> <img src='fotos/$linha[foto3]' width='300' height='300'><br> $linha[leg3]</td>
-    <td> <img src='fotos/$linha[foto4]' width='300' height='300'><br> $linha[leg4] </td>
-    </tr>
+    
     
    
    

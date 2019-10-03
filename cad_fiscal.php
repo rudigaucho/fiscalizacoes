@@ -1,5 +1,18 @@
 
+<?php 
 
+session_start();
+
+if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"])  )
+{
+  header("Location: index.html");
+  exit;
+  
+  
+}
+
+
+?>
 
 
 <!DOCTYPE html>
@@ -9,7 +22,7 @@
 <html lang="pt-br">
 <head>
 
-  <?php session_start(); ?>
+  
 
  <style>
      #jumbo{
@@ -139,7 +152,7 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
 
 
   <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
+  <div class="container-fluid" style="background-image: url('img/buss.jpg')";>
     <div class="navbar-header">
       
        
@@ -205,7 +218,7 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
      <div class="form-group">
        <label for="email" >Técnico:</label> 
        <select  class="form-control" name="tec">
-       <option value="0">Escolha um técnico</option>
+       
         <?php 
            $escolha = $_SESSION['id'];
           
@@ -230,8 +243,18 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
 
     
     <div class="form-group">
-    <label for="email">OBS: </label>
-  <textarea class="form-control" rows="5" id="obs" name="obs" maxlength="500"></textarea>
+    <label for="email">Pontos positivos encontrado: </label>
+  <textarea class="form-control" rows="5" id="obs" name="pos" maxlength="500"></textarea>
+    </div>
+
+    <div class="form-group">
+    <label for="email">Pontos negativos encontrado: </label>
+  <textarea class="form-control" rows="5" id="obs" name="neg" maxlength="500"></textarea>
+    </div>
+
+    <div class="form-group">
+    <label for="email">Observação IQF: </label>
+  <textarea class="form-control" rows="5" id="iqf" name="iqf" maxlength="1000"></textarea>
     </div>
 
 
@@ -243,18 +266,21 @@ if(!isset($_SESSION["login"]) || ($_SESSION["acesso"] != 'GE' ) &&  ($_SESSION["
 <div class="form-group" >
     <label for="email">Fotos: </label> <label style="font-size: 12px; color: red;" >(Permitido apenas fotos menores que 1MB)</label>
     <input type="file"  id="foto1" name="foto1" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg1" maxlength="85" required /><br><br>
+    <input type="text"  placeholder="Legenda da foto"  name="leg1" maxlength="85"  required /><br><br>
 
 
-    <input type="file"  id="foto2" name="foto2" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg2" maxlength="85" required /><br><br>
+    <input type="file"  id="foto2" name="foto2"  />
+    <input type="text"  placeholder="Legenda da foto"  name="leg2" maxlength="85"  /><br><br>
 
 
-    <input type="file"  id="foto3" name="foto3" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg3" maxlength="85" required /><br><br>
-    <input type="file"  id="foto4" name="foto4" required />
-    <input type="text"  placeholder="Legenda da foto"  name="leg4" maxlength="85" required /><br><br>
-    
+    <input type="file"  id="foto3" name="foto3"  />
+    <input type="text"  placeholder="Legenda da foto"  name="leg3" maxlength="85"  /><br><br>
+
+    <fieldset style="border: 2px groove red;padding: 0.75em;">
+    <SPAn style="font-size: 12px; color: red;">FOTO AUDITORIA IQF</SPAn>
+    <input type="file"  id="foto4" name="foto4"  />
+    <input type="text"  placeholder="Legenda da foto"  name="leg4" maxlength="85"  /><br><br>
+    <fieldset>
    
 
 

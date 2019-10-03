@@ -3,14 +3,6 @@
 
 session_start();
 
-if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"])  )
-{
-  header("Location: index.html");
-  exit;
-  
-  
-}
-
 
 ?>
 
@@ -19,27 +11,16 @@ if(!isset($_SESSION["login"]) &&  !isset($_SESSION["senha"])  )
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
-<script language="Javascript">
-function confirmacao(protocolo) {
-     var resposta = confirm("Deseja remover esse registro?");
- 
-     if (resposta == true) {
-          window.location.href = "deletar.php?protocolo="+protocolo;
-     }
-}
-</script>
 <style>
 img{
 
 
-  width:60%;
-  height:10%;
+width:60%;
+height:70%;
 
 }
 
 figure {
-  
   
   
   font-style: italic;
@@ -63,6 +44,16 @@ font-size:20px;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <link rel="icon" href="img/logo_serede.png">
+
+<script language="Javascript">
+function confirmacao(protocolo) {
+     var resposta = confirm("Deseja remover esse registro?");
+ 
+     if (resposta == true) {
+          window.location.href = "deletar_rep.php?protocolo="+protocolo;
+     }
+}
+</script>
 
 <script type="text/javascript">
 function fnExcelReport() {
@@ -105,7 +96,7 @@ function fnExcelReport() {
 
 
   <link rel="icon" href="img/key.png">
-  <title>Fiscalizações</title>
+  <title>REPETIDOS.</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -116,7 +107,7 @@ function fnExcelReport() {
 
 
 
-<nav class="navbar navbar-inverse" style="background-image: url('img/buss.jpg');>
+<nav class="navbar navbar-inverse" style="background-image: url('img/buss.jpg');">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Serede</a>
@@ -140,95 +131,19 @@ function fnExcelReport() {
 <div class="container">
  
   
-  <form class="form-inline" role="form"  method="POST" action="pesq_per.php"  style="margin-left:10%;">
-    <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
-<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
-
-<!--Font Awesome (added because you use icons in your prepend/append)-->
-<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
-
-<!-- Inline CSS based on choices in "Settings" tab -->
-<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;} </style>
-
-<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
-<div style="float:left;" class="bootstrap-iso">
-  
-  <div class="row">
-   <label  for="data">
-      Período
-      </label>
-    
-     <div class="form-group ">
-      
-      <div class="col-sm-10">
-       <div class="input-group">
-        <div class="input-group-addon">
-         <i class="fa fa-calendar">
-         </i>
-        </div>
-        <input class="form-control" id="date" name="date" placeholder="DE" type="text"  autocomplete="off" required/>
-        <input class="form-control" id="date2" name="date2" placeholder="ATÉ"  autocomplete="off" type="text" required/>
-       </div>
-      </div>
-     </div>
-    
-  
-   
-  </div>
-
-</div>
-
-
-<!-- Extra JavaScript/CSS added manually in "Settings" tab -->
-<!-- Include jQuery -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-
-<!-- Include Date Range Picker -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-
-<script>
- $(document).ready(function(){
-  var date_input=$('input[name="date"]'); //our date input has the name "date"
-  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-  date_input.datepicker({
-   format: 'yyyy-mm-dd',
-   container: container,
-   todayHighlight: true,
-   autoclose: true,
-  })
- })
-</script>
-<script>
- $(document).ready(function(){
-  var date_input=$('input[name="date2"]'); //our date input has the name "date"
-  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-  date_input.datepicker({
-   format: 'yyyy-mm-dd',
-   container: container,
-   todayHighlight: true,
-   autoclose: true,
-   orientation: 'top',
-  })
- })
-</script>
-    
-    
-    <button type="submit"  name="submit" id="submit" class="btn btn-default">Busca</button> <br><br><br><br>
-  </form>
-</div>
+ 
 
   <div class="table-responsive">
-  <table class="table table-hover" >
+  <table class="table table-hover" id="myTable">
     <thead>
       <tr >
-        <th>CLIENTE</th>
+      <th>CLIENTE</th>
         <th>CCTO</th>
+        
+        <th>AÇÃO</th>
+        
         <th>DATA</th>
-        <th>TIPO</th>
         <th>GA</th>
-        <th>TÉCNICO</th>
-        <th>FOTOS</th>
         <th>PDF</th>
         <th>DELETAR</th>
         
@@ -243,32 +158,20 @@ function fnExcelReport() {
     </thead>
   
   <?php
-if (isset($_POST ['submit']) )
-{
-
-    $data = $_POST['date'];
-    $data2 = $_POST['date2'];
-
-    if($_SESSION['acesso'] == "GA" )
-    {
 
 
-$sql = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2' and id_ga = '".$_SESSION['id']."' order by tecnico" );
+    
+    $ga = $_GET['ga'];
 
-$sql2 = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2' and id_ga = '".$_SESSION['id']."' order by tecnico" );
-    }
-
-    else
-    {
-
-        $sql = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2' order by nome_ga" );
-
-        $sql2 = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2'  order by nome_ga" );
+   
 
 
+$sql = mysql_query ("select  * from repetido  where  nome_ga = '$ga'  and  MONTH(data) = MONTH(NOW())   and year(data) = year(now())" );
 
+$sql2 = mysql_query ("select  * from repetido  where  nome_ga = '$ga'  and  MONTH(data) = MONTH(NOW())   and year(data) = year(now())" );
+    
 
-    }
+  
 
 
 
@@ -282,14 +185,30 @@ if (mysql_num_rows($sql) > 0)
   while ($dado = mysql_fetch_assoc($sql )){
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <tbody >
+    <tbody>
       <tr class="success">
-        <td> <?php echo $dado ["cliente"];  ?></td>
+      <td> <?php echo $dado ["cliente"];  ?></td>
         <td> <?php echo $dado ["ccto"];  ?></td>
+       
+        <td> <?php echo $dado ["acao"];  ?></td>
+        
         <td> <?php echo $dado ["data"];  ?></td>
-        <td> <?php echo $dado ["tipo"];  ?></td>
         <td> <?php echo $dado ["nome_ga"];  ?></td>
-        <td> <?php echo $dado ["tecnico"];  ?></td>
+        <?php
+        $foto1 = $dado ["foto1"];
+        $foto2 = $dado ["foto2"];
+       
+
+        $leg1 = $dado ["leg1"];
+        $leg2 = $dado ["leg2"];
+        
+        ?>
+
+        
+        <td> <a href="pdf_rep.php?protocolo=<?php echo $dado["protocolo"];?>" target="_blank" class="btn btn-info btn-xs active" role="button" aria-pressed="true">Gerar Pdf</a></td>
+        <td> <a href="javascript:func()"
+onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger btn-xs active" role="button" aria-pressed="true">Deletar</a></td>
+
         <?php
         $foto1 = $dado ["foto1"];
         $foto2 = $dado ["foto2"];
@@ -301,16 +220,8 @@ if (mysql_num_rows($sql) > 0)
         $leg3 = $dado ["leg3"];
         $leg4 = $dado ["leg4"];
         ?>
-
-        <td> <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $dado ['protocolo'];  ?>" >Visualizar</button> </td>
-        <td> <a href="pdf.php?protocolo=<?php echo $dado["protocolo"];?>" target="_blank" class="btn btn-info btn-xs active" role="button" aria-pressed="true">Gerar Pdf</a></td>
-        <td> <a href="javascript:func()"
-onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger btn-xs active" role="button" aria-pressed="true">Deletar</a></td>
-
-        <div class="modal fade" id="myModal<?php echo $dado["protocolo"];  ?>" role="dialog">
+   <div class="modal fade" id="myModal<?php echo $dado["protocolo"];  ?>" role="dialog">
     <div class="modal-dialog-lg">
-
-   
     
       <!-- Modal content-->
       <div class="modal-content">
@@ -375,9 +286,7 @@ onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger 
 </div>
 
 
-
-
-  <?php }  } }   
+  <?php }  }   
    
     ?>
 
@@ -392,7 +301,8 @@ onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger 
 </div>
     </tbody>
   </table>
- 
+
+  
 </div>
 
 

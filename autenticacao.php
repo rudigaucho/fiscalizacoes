@@ -90,6 +90,7 @@ if($row > 0  )
 	
 	
 	}
+	
 	session_start();
 	
 	$_SESSION['senha']=$senha;
@@ -104,6 +105,8 @@ if($row > 0  )
 
 	echo "<img src='img/logo_serede.png' style=' width: 80px; height:80px; padding-left:40%; ' > <br> <div style='background:rgba(1,1,1,0.5); padding:3px; text-align:center;'><span style='font-size:20px;'>Oi $nome! Você foi logado (a) com sucesso!</span></div>";
 
+	echo '<img src="img/redirect.png" style="padding-left:30%;padding-top:8%;" >';
+
 	 echo "<script>loginsuccessfully()</script>";
 
 	
@@ -111,6 +114,8 @@ if($row > 0  )
 else
 {
 	echo "<br> <div style='background:rgba(1,1,1,0.5); padding:3px; text-align:center;'><span style='font-size:20px;'>Senha ou Login inválidos</span></div>";
+
+	echo '<img src="img/stop.jpg" style="padding-left:30%;padding-top:8%;" >';
 	echo "<script>loginfailed()</script>";
 	
 }

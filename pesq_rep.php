@@ -25,7 +25,7 @@ function confirmacao(protocolo) {
      var resposta = confirm("Deseja remover esse registro?");
  
      if (resposta == true) {
-          window.location.href = "deletar.php?protocolo="+protocolo;
+          window.location.href = "deletar_rep.php?protocolo="+protocolo;
      }
 }
 </script>
@@ -140,7 +140,7 @@ function fnExcelReport() {
 <div class="container">
  
   
-  <form class="form-inline" role="form"  method="POST" action="pesq_per.php"  style="margin-left:10%;">
+  <form class="form-inline" role="form"  method="POST" action="pesq_rep.php"  style="margin-left:10%;">
     <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
 <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
 
@@ -224,13 +224,14 @@ function fnExcelReport() {
       <tr >
         <th>CLIENTE</th>
         <th>CCTO</th>
+        
+        <th>AÇÃO</th>
+      
         <th>DATA</th>
-        <th>TIPO</th>
         <th>GA</th>
-        <th>TÉCNICO</th>
-        <th>FOTOS</th>
         <th>PDF</th>
         <th>DELETAR</th>
+       
         
         
         
@@ -253,17 +254,17 @@ if (isset($_POST ['submit']) )
     {
 
 
-$sql = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2' and id_ga = '".$_SESSION['id']."' order by tecnico" );
+$sql = mysql_query ("select * from repetido where data BETWEEN '$data' and '$data2' and id_ga = '".$_SESSION['id']."' " );
 
-$sql2 = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2' and id_ga = '".$_SESSION['id']."' order by tecnico" );
+$sql2 = mysql_query ("select * from repetido where data BETWEEN '$data' and '$data2' and id_ga = '".$_SESSION['id']."' " );
     }
 
     else
     {
 
-        $sql = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2' order by nome_ga" );
+        $sql = mysql_query ("select * from repetido where data BETWEEN '$data' and '$data2' order by nome_ga" );
 
-        $sql2 = mysql_query ("select * from fiscal where data BETWEEN '$data' and '$data2'  order by nome_ga" );
+        $sql2 = mysql_query ("select * from repetido where data BETWEEN '$data' and '$data2'  order by nome_ga" );
 
 
 
@@ -286,24 +287,23 @@ if (mysql_num_rows($sql) > 0)
       <tr class="success">
         <td> <?php echo $dado ["cliente"];  ?></td>
         <td> <?php echo $dado ["ccto"];  ?></td>
+      
+        <td> <?php echo $dado ["acao"];  ?></td>
+        
         <td> <?php echo $dado ["data"];  ?></td>
-        <td> <?php echo $dado ["tipo"];  ?></td>
         <td> <?php echo $dado ["nome_ga"];  ?></td>
-        <td> <?php echo $dado ["tecnico"];  ?></td>
         <?php
         $foto1 = $dado ["foto1"];
         $foto2 = $dado ["foto2"];
-        $foto3 = $dado ["foto3"];
-        $foto4 = $dado ["foto4"];
+       
 
         $leg1 = $dado ["leg1"];
         $leg2 = $dado ["leg2"];
-        $leg3 = $dado ["leg3"];
-        $leg4 = $dado ["leg4"];
+        
         ?>
 
-        <td> <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $dado ['protocolo'];  ?>" >Visualizar</button> </td>
-        <td> <a href="pdf.php?protocolo=<?php echo $dado["protocolo"];?>" target="_blank" class="btn btn-info btn-xs active" role="button" aria-pressed="true">Gerar Pdf</a></td>
+        
+        <td> <a href="pdf_rep.php?protocolo=<?php echo $dado["protocolo"];?>" target="_blank" class="btn btn-info btn-xs active" role="button" aria-pressed="true">Gerar Pdf</a></td>
         <td> <a href="javascript:func()"
 onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger btn-xs active" role="button" aria-pressed="true">Deletar</a></td>
 
@@ -339,11 +339,7 @@ onclick="confirmacao('<?php echo $dado['protocolo'];?>')" class="btn btn-danger 
         <?php echo "<figure> <img src='fotos/$foto2' class='img-rounded' alt='' >" ?>
         <?php echo "<figcaption> $leg2 </figcaption></figure>" ?><br>
 
-        <?php echo "<figure> <img src='fotos/$foto3' class='img-rounded' alt='' >" ?>
-        <?php echo "<figcaption> $leg3 </figcaption></figure>" ?><br>
-
-        <?php echo "<figure> <img src='fotos/$foto4' class='img-rounded' alt='' >" ?>
-        <?php echo "<figcaption> $leg4 </figcaption></figure>" ?>
+      
 
 
         
