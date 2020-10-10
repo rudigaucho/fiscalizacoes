@@ -434,8 +434,12 @@ if (mysql_num_rows($sql) > 0){
       <?php if($dado ["total"] >= 2) { ?>
       <td><span class="label label-success" style="font-size:16px;" ><a style="color:black;" href="pesq_contagem.php?ga=<?php echo $dado ["nome"];  ?>"><?php echo $dado ["total"]; ?></span></a></td>  
       
-      <?php } else { ?>
+      <?php } if($dado ["total"] == 0) { ?>
         <td><span class="label label-danger" style="font-size:16px;" ><a style="color:black;" href="pesq_contagem.php?ga=<?php echo $dado ["nome"];  ?>"><?php echo $dado ["total"]; ?></span></a></td>
+        <?php } ?>
+
+        <?php  if($dado ["total"] == 1) { ?>
+        <td><span class="label label-warning" style="font-size:16px;" ><a style="color:black;" href="pesq_contagem.php?ga=<?php echo $dado ["nome"];  ?>"><?php echo $dado ["total"]; ?></span></a></td>
         <?php } ?>
 
         <td><a style="color:black;" href="pesq_contagem2.php?ga=<?php echo $dado2 ["nome"];  ?>"><?php echo $dado2 ["total2"]; ?></span></a></td>
